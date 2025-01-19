@@ -95,35 +95,6 @@ C:.
 
 ```
 
-```
-
-## 后端
-```
-C:.
-├── src
-    ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── jiaowu
-    │   │           └── backend
-    │   │               ├── controller 控制层
-    │   │               ├── exception 异常统一处理
-    │   │               ├── pojo 传输以及存储数据结构
-    │   │               │   └── dto
-    │   │               ├── repository 数据访问层
-    │   │               ├── security 生成秘钥
-    │   │               └── service 业务逻辑层
-    │   └── resources
-    │       ├── static
-    │       └── templates
-    └── test
-        └── java
-            └── com
-                └── jiaowu
-                    └── backend
-
-```
-
 # **鸣谢**
 
 本项目以他人的项目（[成绩管理系统](https://gitee.com/DeitySpark/score-management-system)）为基础，进行了重大功能改进和优化，在代码结构、功能模块以及用户体验上都进行了全面升级。在此特别感谢原作者的开源贡献，为本项目的开发提供了重要参考与帮助。
