@@ -12,7 +12,6 @@
 				</el-aside>
 				<!-- main-content -->
 				<el-main class="main-content">
-					<tab-box/>
 					<!--					<index-content/>-->
 					<router-view name="teaTable"/>
 				</el-main>

@@ -18,6 +18,6 @@ public class GlobalExceptionHanderAdvice {
     public ResponseMessage handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
 
         log.error(e.getMessage(), e);
-        return new ResponseMessage(500,"error",null);
+        return new ResponseMessage(500,e.getMessage(),null);
     }
 }

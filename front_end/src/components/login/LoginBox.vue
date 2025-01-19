@@ -115,8 +115,12 @@ export default {
           if (res.data.code === 200) {
             const token = res.data.data.token;
             const role = res.data.data.role;
+            const Num = res.data.data.userNum;
+            const name = res.data.data.userName;
 
             // 存储 Token 和角色
+            sessionStorage.setItem('userNum', Num);
+            sessionStorage.setItem('userName', name);
             sessionStorage.setItem('authToken', token);
             sessionStorage.setItem('userRole', role);
 
@@ -131,10 +135,10 @@ export default {
             const redirectPath = rolePaths[role] + "/index" || '/';
             this.$router.push({ path: redirectPath }); // 确保跳转路径有效
           }else {
-            msg("error", res.data.msg);
+            msg("error", res.data.message);
           }
         } catch (err) {
-          msg("error", err.message);
+          msg("error", err.getMessage);
         }
       } else {
         // 注册请求校验

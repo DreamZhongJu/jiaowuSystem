@@ -78,6 +78,8 @@ public class UserService implements IUserService {
 
         // 返回数据
         return Map.of(
+                "userNum", foundUser.getNum(),
+                "userName", foundUser.getName(),
                 "token", token,
                 "role", foundUser.getRole()
         );

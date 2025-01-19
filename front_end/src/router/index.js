@@ -30,7 +30,7 @@ const routes = [
         path: 'index',
         name: 'StudentIndex',
         components: {
-          stuTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/home/HomeContent')
+          stuTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/common/welcome.vue')
         }
       },
       {
@@ -60,25 +60,25 @@ const routes = [
   {
     path: '/teacher',
     name: 'TeacherView',
-    component: () => import(/* webpackChunkName: "notfound" */ '@/views/TeacherView'),
+    component: () => import('@/views/TeacherView'),
     meta: {
-      isKeepAlive: false,
       requiresAuth: true, // 需要鉴权
       role: 1 // 教师角色
     },
+    redirect: '/teacher/index', // 默认重定向到 /teacher/index
     children: [
       {
         path: 'index',
         name: 'TeacherIndex',
         components: {
-          teaTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/teacher/TeaCourseManage.vue')
+          teaTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/common/welcome.vue')
         }
       },
       {
         path: 'course',
         name: 'ScoreManage',
         components: {
-          teaTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/teacher/TeaCourseManage.vue')
+          teaTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/common/welcome.vue')
         }
       },
       {
@@ -118,7 +118,7 @@ const routes = [
         path: 'index',
         name: 'AdminIndex',
         components: {
-          adminTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/home/HomeContent')
+          adminTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/common/welcome.vue')
         }
       },
       {
@@ -171,36 +171,36 @@ const routes = [
         }
       }
     ]
-  }
+  },
+  {
+    path: '/:pathMatch(.*)*', // 匹配所有未定义路径
+    name: 'NotFound',
+    component: () => import('@/views/NotFoundView.vue'), // 404 页面
+  },
 ]
 
-// 创建路由实例
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory('/'),
   routes
-})
+});
 
-// 添加路由守卫
 router.beforeEach((to, from, next) => {
-  // 检查是否需要鉴权
-  if (to.meta.requiresAuth) {
-    const token = sessionStorage.getItem('authToken'); // 从 localStorage 获取 Token
-    const role = parseInt(sessionStorage.getItem('userRole'), 10); // 从 localStorage 获取角色
+  const token = sessionStorage.getItem('authToken'); // 从 sessionStorage 获取 Token
+  const role = parseInt(sessionStorage.getItem('userRole'), 10); // 从 sessionStorage 获取角色
 
+  if (to.meta.requiresAuth) {
     if (!token) {
       // 如果没有 Token，跳转到登录页面
-      next({ path: '/login', query: { redirect: to.fullPath } });
-    } else if (to.meta.role !== undefined && role !== to.meta.role) {
-      // 如果角色不匹配，跳转到没有权限页面或首页
-      next({ path: '/' });
-    } else {
-      // 通过验证，放行
-      next();
+      return next({ path: '/login', query: { redirect: to.fullPath } });
     }
-  } else {
-    // 不需要鉴权，直接放行
-    next();
+
+    if (to.meta.role !== undefined && to.meta.role !== role) {
+      // 如果角色不匹配，跳转到没有权限页面或首页
+      return next({ path: '/unauthorized' }); // 使用明确的 "无权限" 路径
+    }
   }
+  // 放行
+  next();
 });
 
 export default router;

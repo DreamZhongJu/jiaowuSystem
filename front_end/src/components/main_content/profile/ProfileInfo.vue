@@ -1,113 +1,138 @@
 <template>
-	<el-form :model="form1" label-width="120px" class="profile-form">
-		<el-form-item v-if="role === 'student'" :label="form1.stu_id.title">
-			<el-input v-model="form1.stu_id.value" />
-		</el-form-item>
-		<el-form-item :label="form1.name.title">
-			<el-input v-model="form1.name.value" placeholder="修改姓名"/>
-		</el-form-item>
-		<el-form-item :label="form1.sex.title">
-			<el-input v-model="form1.sex.value" placeholder="修改性别"/>
-		</el-form-item>
-		<el-form-item :label="form1.birthday.title">
-			<el-date-picker
-				v-model="form1.birthday.value"
-				type="date"
-				placeholder="选择出生日期"
-				style="width: 100%"
-			/>
-		</el-form-item>
-		<form-input-box :form="form2" class="profile-form-item" />
-		<el-form-item class="submit-button">
-			<el-button type="primary" @click="submitForm">保存修改</el-button>
-		</el-form-item>
-	</el-form>
+  <div class="profile-container">
+    <el-form :model="form" label-width="120px" class="profile-form">
+      <!-- 修改姓名 -->
+      <el-form-item label="姓名">
+        <el-input v-model="form.name" placeholder="请输入新的姓名" />
+      </el-form-item>
+
+      <!-- 修改邮箱 -->
+      <el-form-item label="邮箱">
+        <el-input v-model="form.email" placeholder="请输入新的邮箱" />
+      </el-form-item>
+
+      <!-- 提交按钮 -->
+      <el-form-item class="submit-button">
+        <el-button type="primary" @click="submitForm">保存修改</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
-import { getStudentInfo, updateStudentInfo } from '@/network/student';
-import { getTeacherInfo, updateTeacherInfo } from '@/network/teacher';
-import FormInputBox from '@/components/common/FormInputBox';
-import { msg } from '@/assets/js/InformMsg'; 
+import { getUserInfo, updateUserInfo } from "@/network/teacher"; // 假设已统一接口
+import { msg } from "@/assets/js/InformMsg"; // 消息提示工具
 
 export default {
   name: "ProfileInfo",
-  components: {
-    FormInputBox
-  },
   data() {
     return {
-      form1: {
-        stu_id: {},
-        name: {},
-        sex: {},
-        birthday: {}
+      form: {
+        name: "",
+        email: "",
       },
-      form2: [],
-      username: this.$store.state.account.username,
       user_id: this.$store.state.account.user_id,
-      role: this.$store.state.account.role
     };
   },
   mounted() {
-    this.getProfileInfo();
+    this.fetchProfileInfo();
   },
   methods: {
-    getProfileInfo() {
-      if (this.role === 'student') {
-        getStudentInfo({ username: this.username }).then(res => {
-          this.form1 = res.data.data[0];
-          this.form2 = res.data.data[1];
-        });
-      } else {
-        getTeacherInfo({ user_id: this.user_id }).then(res => {
-          this.form1 = res.data.data[0];
-          this.form2 = res.data.data[1];
-        });
-      }
+    // 获取用户信息
+    fetchProfileInfo() {
+      getUserInfo({ user_id: this.user_id })
+          .then((res) => {
+            const userInfo = res.data.data;
+            this.form.name = userInfo.name || "";
+            this.form.email = userInfo.email || "";
+          })
+          .catch((err) => {
+            console.error("获取用户信息失败:", err);
+            msg("error", "获取用户信息失败，请稍后重试");
+          });
     },
-    submitForm() {
-      const updateData = {
-        ...this.form1,
-        ...this.form2
-      };
 
-      if (this.role === 'student') {
-        updateStudentInfo(updateData).then(() => {
-          msg('success', '信息更新成功');
-        }).catch(err => {
-          console.error('信息更新失败:', err);
-          msg('error', '信息更新失败');
-        });
-      } else {
-        updateTeacherInfo(updateData).then(() => {
-          msg('success', '信息更新成功');
-        }).catch(err => {
-          console.error('信息更新失败:', err);
-          msg('error', '信息更新失败');
-        });
-      }
-    }
-  }
+    // 提交修改
+    submitForm() {
+      const updateData = { ...this.form, user_id: this.user_id };
+
+      updateUserInfo(updateData)
+          .then(() => {
+            msg("success", "信息更新成功");
+          })
+          .catch((err) => {
+            console.error("信息更新失败:", err);
+            msg("error", "信息更新失败，请稍后重试");
+          });
+    },
+  },
 };
 </script>
 
 <style scoped>
-.profile-form {
-  margin: 20px auto;
-  max-width: 600px;
+/* 页面容器：垂直水平居中 */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 占满整个视口高度 */
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* 渐变背景 */
   padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 表单容器样式 */
+.profile-form {
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto", Arial, sans-serif;
+  text-align: left;
 }
 
-.profile-form-item {
-  margin: 20px 0;
+/* 表单项样式 */
+.el-form-item {
+  margin-bottom: 20px;
 }
 
+/* 提交按钮样式 */
 .submit-button {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
+}
+
+.el-button {
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.el-button:hover {
+  background-color: #1e88e5;
+  color: #fff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.el-button:active {
+  transform: scale(0.98);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .profile-form {
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .el-button {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
 }
 </style>
