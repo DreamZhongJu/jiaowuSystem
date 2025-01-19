@@ -32,6 +32,98 @@
 
 ---
 
+# 文件树
+
+## 前端
+
+
+# 文件树
+
+## 前端
+
+```
+C:.
+├─assets 网页图片以及样式
+│ ├─css 样式文件 (全局和模块化 CSS)
+│ ├─img 图片资源 (如 logo、背景图等)
+│ ├─js 公共的 JavaScript 工具函数
+│ └─lib 第三方库
+│ └─iconfont 图标字体库
+├─components vue组件
+│ ├─common 公共组件 (如按钮、弹窗等)
+│ ├─header_nav 顶部导航条组件
+│ ├─login 登录页相关组件
+│ ├─main_content 主内容区组件
+│ │ ├─admin 管理员相关功能组件
+│ │ ├─home 首页相关组件
+│ │ ├─profile 用户个人信息相关组件
+│ │ ├─student 学生功能相关组件
+│ │ └─teacher 教师功能相关组件
+│ └─side_nav 侧边栏导航组件
+├─network 网络请求模块 (封装 axios 请求)
+├─router 路由
+│ └─aside 路由侧边栏配置
+├─store Vuex 状态管理
+└─views 页面视图 (对应具体路由页面)
+
+```
+
+## 后端
+```
+C:.
+├── src
+├── main
+│ ├── java
+│ │ └── com
+│ │ └── jiaowu
+│ │ └── backend
+│ │ ├── controller 控制层 (处理请求并返回响应)
+│ │ ├── exception 异常统一处理 (全局异常捕获)
+│ │ ├── pojo 传输以及存储数据结构
+│ │ │ └── dto 数据传输对象 (用于前后端交互)
+│ │ ├── repository 数据访问层 (操作数据库)
+│ │ ├── security 安全模块 (如生成秘钥、用户验证)
+│ │ └── service 业务逻辑层 (核心功能实现)
+│ └── resources 配置文件及模板文件
+│ ├── static 静态资源 (如前端打包文件)
+│ └── templates 页面模板 (如 Thymeleaf 模板)
+└── test
+└── java
+└── com
+└── jiaowu
+└── backend 单元测试与集成测试
+
+```
+
+```
+
+## 后端
+```
+C:.
+├── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── jiaowu
+    │   │           └── backend
+    │   │               ├── controller 控制层
+    │   │               ├── exception 异常统一处理
+    │   │               ├── pojo 传输以及存储数据结构
+    │   │               │   └── dto
+    │   │               ├── repository 数据访问层
+    │   │               ├── security 生成秘钥
+    │   │               └── service 业务逻辑层
+    │   └── resources
+    │       ├── static
+    │       └── templates
+    └── test
+        └── java
+            └── com
+                └── jiaowu
+                    └── backend
+
+```
+
 # **鸣谢**
 
 本项目以他人的项目（[成绩管理系统](https://gitee.com/DeitySpark/score-management-system)）为基础，进行了重大功能改进和优化，在代码结构、功能模块以及用户体验上都进行了全面升级。在此特别感谢原作者的开源贡献，为本项目的开发提供了重要参考与帮助。
