@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { updatepwd } from "@/network/log_reg";
+import {updateUserPassword} from "@/network/user_info"
 
 export default {
   name: "UpdatePsd",
@@ -84,6 +84,10 @@ export default {
       if (savedUsername) {
         this.form.userName = savedUsername;
       }
+      const savedUserNum = sessionStorage.getItem("userNum");
+      if (savedUserNum) {
+        this.form.userNum = savedUserNum;
+      }
     },
     validateField(field) {
       this.$refs.formRef.validateField(field, () => {
@@ -99,13 +103,12 @@ export default {
     onSubmit() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          const userNum = this.form.userNum
           const payload = {
-            username: this.form.userName,
             oldPassword: this.form.oldPassword,
             newPassword: this.form.newPassword,
           };
-
-          updatepwd(payload)
+          updateUserPassword(userNum,payload)
               .then((response) => {
                 if (response?.data?.code === 200) {
                   this.form.oldPassword = "";

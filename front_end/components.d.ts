@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
@@ -59,6 +60,7 @@ declare module '@vue/runtime-core' {
     UpdatePsd: typeof import('./src/components/main_content/profile/UpdatePsd.vue')['default']
     UpdatePwd: typeof import('./src/components/main_content/student/UpdatePwd.vue')['default']
     UserInfo: typeof import('./src/components/header_nav/UserInfo.vue')['default']
+    UserManage: typeof import('./src/components/main_content/admin/UserManage.vue')['default']
     Welcome: typeof import('./src/components/main_content/common/welcome.vue')['default']
   }
 }

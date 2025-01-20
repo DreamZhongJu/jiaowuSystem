@@ -2,6 +2,7 @@ package com.jiaowu.backend.service;
 
 import com.jiaowu.backend.pojo.User;
 import com.jiaowu.backend.pojo.dto.UserDto;
+import com.jiaowu.backend.pojo.dto.UserPasswordDto;
 
 import java.util.List;
 import java.util.Map;
@@ -39,4 +40,6 @@ public interface IUserService {
      * @param user
      */
     Map<String, Object> login(UserDto user);
+
+    void updatePassword(String userId, UserPasswordDto userDto) throws Exception;
 }

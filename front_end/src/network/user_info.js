@@ -24,3 +24,12 @@ export function getUserRole(id) {
         params: { id }, // 使用查询参数
     });
 }
+
+export function updateUserPassword(userId, data) {
+    return request({
+        url: `/user/password/${userId}`, // 将 userId 放入路径中
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' }, // 设置请求头为 JSON
+        data: JSON.stringify(data), // 将数据序列化为 JSON 格式
+    });
+}

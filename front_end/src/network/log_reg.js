@@ -20,7 +20,7 @@ export function registerSub(data) {
 
 export function updatepwd(data) {
   return request({
-    url: '/updatepwd',
+    url: '/user/updatepwd',
     method: 'POST',
     headers: { 'Content-Type': 'application/json' }, // 设置请求头为 JSON
     data: JSON.stringify(data), // 将数据序列化为 JSON 格式

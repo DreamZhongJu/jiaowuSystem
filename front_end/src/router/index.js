@@ -122,17 +122,10 @@ const routes = [
         }
       },
       {
-        path: 'stumanage',
-        name: 'StudentManage',
+        path: 'usermanage',
+        name: 'UserManage',
         components: {
-          adminTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/admin/StudentManage.vue')
-        }
-      },
-      {
-        path: 'teamanage',
-        name: 'TeacherManage',
-        components: {
-          adminTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/admin/TeacherManage.vue')
+          adminTable: () => import(/* webpackChunkName: "score" */ '@/components/main_content/admin/UserManage.vue')
         }
       },
       {

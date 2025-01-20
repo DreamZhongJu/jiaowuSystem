@@ -2,6 +2,7 @@ package com.jiaowu.backend.service;
 
 import com.jiaowu.backend.pojo.User;
 import com.jiaowu.backend.pojo.dto.UserDto;
+import com.jiaowu.backend.pojo.dto.UserPasswordDto;
 import com.jiaowu.backend.repository.UserRepository;
 import com.jiaowu.backend.security.JwtKeyProvider;
 import io.jsonwebtoken.Jwts;
@@ -54,8 +55,34 @@ public class UserService implements IUserService {
         if (userDto.getEmail() != null) {
             existingUser.setEmail(userDto.getEmail());
         }
+        if(userDto.getPassword() != null) {
+            existingUser.setPassword(userDto.getPassword());
+        }
         // 3. 保存更新后的用户信息
         return userRepository.save(existingUser);
+    }
+
+    @Override
+    public void updatePassword(String userId, UserPasswordDto userDto) throws Exception {
+        // 1. 查找用户是否存在
+        Optional<User> optionalUser = userRepository.findByNum(userId);
+        if (optionalUser.isEmpty()) {
+            throw new EntityNotFoundException("用户未找到，ID: " + userId);
+        }
+
+        User existingUser = optionalUser.get();
+        try{
+            if(existingUser.getPassword().equals(userDto.getOldPassword())) {
+                existingUser.setPassword(userDto.getNewPassword());
+                userRepository.save(existingUser);
+            }
+            else{
+                throw new Exception("旧密码错误");
+            }
+        }
+        catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override

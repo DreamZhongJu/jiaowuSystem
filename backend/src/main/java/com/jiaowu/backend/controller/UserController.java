@@ -3,6 +3,7 @@ package com.jiaowu.backend.controller;
 import com.jiaowu.backend.pojo.ResponseMessage;
 import com.jiaowu.backend.pojo.User;
 import com.jiaowu.backend.pojo.dto.UserDto;
+import com.jiaowu.backend.pojo.dto.UserPasswordDto;
 import com.jiaowu.backend.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -43,13 +44,19 @@ public class UserController {
     @GetMapping("/all")
     public ResponseMessage<User> getAll() {
         List<User> userNew =  userService.getAll();
-        return ResponseMessage.success();
+        return ResponseMessage.success(userNew);
     }
 
     //修改
     @PutMapping("/edit/{userId}")
     public ResponseMessage<User> edit(@PathVariable String userId, @RequestBody UserDto userDto) {
         userService.edit(userId, userDto);
+        return ResponseMessage.success();
+    }
+
+    @PutMapping("/password/{userId}")
+    public ResponseMessage<User> updatePassword(@PathVariable String userId, @RequestBody UserPasswordDto userDto) throws Exception {
+        userService.updatePassword(userId, userDto);
         return ResponseMessage.success();
     }
 

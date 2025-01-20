@@ -1,6 +1,14 @@
 import { request } from './request.js'
 import qs from 'qs'
 
+// 获取用户信息
+export function getUserInfo() {
+  return request({
+    url: '/user/all',
+    method: 'GET'
+  })
+}
+
 // 获取学生列表
 export function StudentManageList() {
   return request({
@@ -44,6 +52,7 @@ export function AccountManageList(data) {
     data: qs.stringify(data)
   })
 }
+
 // 获取管理员信息
 export function getAdminInfo(data) {
   return request({

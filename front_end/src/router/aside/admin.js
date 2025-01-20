@@ -6,12 +6,8 @@ export const Info = {
       path: "/admin/index",
     },
     {
-      title: "学生管理",
-      path: '/admin/stumanage'
-    },
-    {
-      title: "教师管理",
-      path: '/admin/teamanage'
+      title: "用户管理",
+      path: '/admin/usermanage'
     },
     {
       title: "课程管理",
@@ -24,14 +20,6 @@ export const Info = {
   ],
   
   openalHandle: [
-    {
-      title: "账号管理",
-      contain: [
-        { title: '学生账号', path: '/admin/account/student' },
-        { title: '教师账号', path: '/admin/account/teacher' },
-        { title: '管理员账号', path: '/admin/account/admin' }
-      ]
-    },
     {
       title: "个人中心",
       contain:
