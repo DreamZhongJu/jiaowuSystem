@@ -20,14 +20,15 @@ public interface IUserService {
      * @param userId
      * @return
      */
-    User getUser(Integer userId);
+    User getUser(String userId);
 
     /**
      * 修改用户
-     * @param userId
+     * @param userNum
+     * @param userDto
      * @return
      */
-    User edit(UserDto userId);
+    User edit(String userNum, UserDto userDto);
 
     void delete(Integer userId);
 

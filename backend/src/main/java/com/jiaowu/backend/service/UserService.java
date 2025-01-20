@@ -5,6 +5,7 @@ import com.jiaowu.backend.pojo.dto.UserDto;
 import com.jiaowu.backend.repository.UserRepository;
 import com.jiaowu.backend.security.JwtKeyProvider;
 import io.jsonwebtoken.Jwts;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,19 +31,31 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUser(Integer userId) {
-        return userRepository.findById(userId).orElseThrow(() -> {
+    public User getUser(String userId) {
+        return userRepository.findByNum(userId).orElseThrow(() -> {
             throw new IllegalArgumentException("用户不存在，参数异常");
         });
     }
 
     @Override
-    public User edit(UserDto user) {
-        User userPojo = new User();
+    public User edit(String userNum, UserDto userDto) {
+        // 1. 查找用户是否存在
+        Optional<User> optionalUser = userRepository.findByNum(userNum);
+        if (optionalUser.isEmpty()) {
+            throw new EntityNotFoundException("用户未找到，ID: " + userNum);
+        }
 
-        BeanUtils.copyProperties(user, userPojo);
+        User existingUser = optionalUser.get();
 
-        return userRepository.save(userPojo);
+        // 2. 更新用户信息（只更新非空字段）
+        if (userDto.getName() != null) {
+            existingUser.setName(userDto.getName());
+        }
+        if (userDto.getEmail() != null) {
+            existingUser.setEmail(userDto.getEmail());
+        }
+        // 3. 保存更新后的用户信息
+        return userRepository.save(existingUser);
     }
 
     @Override

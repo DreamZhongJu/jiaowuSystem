@@ -33,22 +33,26 @@ public class UserController {
     }
 
     //查询
-    @GetMapping("/{userId}") // localhost:8080/user/{userId} method:get
-    public ResponseMessage<User> get(@PathVariable Integer userId) {
-        User userNew =  userService.getUser(userId);
+    @GetMapping("/search")
+    public ResponseMessage<User> get(@RequestParam String userId) {
+        System.out.println("Received userId: " + userId); // 打印接收的参数
+        User userNew = userService.getUser(userId);
         return ResponseMessage.success(userNew);
     }
+
     @GetMapping("/all")
     public ResponseMessage<User> getAll() {
         List<User> userNew =  userService.getAll();
         return ResponseMessage.success();
     }
+
     //修改
-    @PutMapping
-    public ResponseMessage<User> edit(@Validated @RequestBody UserDto userId) {
-        User userNew =  userService.edit(userId);
-        return ResponseMessage.success(userNew);
+    @PutMapping("/edit/{userId}")
+    public ResponseMessage<User> edit(@PathVariable String userId, @RequestBody UserDto userDto) {
+        userService.edit(userId, userDto);
+        return ResponseMessage.success();
     }
+
     //删除
     @DeleteMapping("/{userId}")
     public ResponseMessage<User> delete(@PathVariable Integer userId) {

@@ -40,11 +40,21 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!--mysql驱动-->
+		<!-- 达梦数据库驱动，注意根据实际情况调整版本号 -->
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
+			<groupId>com.dameng</groupId>
+			<artifactId>Dm8JdbcDriver18</artifactId>
+			<version>8.1.1.193</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/libraries/DmJdbcDriver11.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.dameng</groupId>
+			<artifactId>DmDialect</artifactId>
+			<version>6.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/libraries/DmDialect-for-hibernate6.6.jar</systemPath>
 		</dependency>
 
 		<!--单元测试-->
